@@ -3,7 +3,7 @@ import pandas as pd
 import geopandas as gpd
 from shapely.geometry import Point
 import leafmap.foliumap as leafmap
-from visualsetup import load_visual_identity
+from theia_streamlit_css import load_visual_identity
 import branca
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
