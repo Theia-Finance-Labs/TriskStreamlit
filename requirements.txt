@@ -1,0 +1,14 @@
+streamlit_folium
+streamlit
+geopy
+folium==0.18.0
+plotly
+numpy
+datetime
+geopandas
+shapely
+leafmap
+mapclassify
+numpy
+branca
+matplotlib
