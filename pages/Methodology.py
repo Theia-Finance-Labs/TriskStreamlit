@@ -1,5 +1,5 @@
 import streamlit as st
-from visualsetup import load_visual_identity
+from theia_streamlit_css import load_visual_identity
 
 st.set_page_config(
     page_title="SME T-risk",
