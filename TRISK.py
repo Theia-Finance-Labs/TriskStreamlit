@@ -30,12 +30,12 @@ def get_colormap(cmap_name='YlOrBr', vmin=0, vmax=0.2, num_colors=10, invert=Fal
 
 st.set_page_config(
     page_title="SME T-risk",
-    page_icon="logo.png",
+    page_icon="pages/logo.png",
     layout="wide"
 
 )
 load_visual_identity('header.png')
-st.logo(icon_image='TheiaLogo.svg',image='logo.png',size='large')
+st.logo(icon_image='pages/TheiaLogo.svg',image='pages/logo.png',size='large')
 
 # Load the NUTS shapefile
 @st.cache_data
