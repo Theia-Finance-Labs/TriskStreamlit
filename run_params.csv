@@ -1,0 +1,8 @@
+baseline_scenario,target_scenario,scenario_geography,carbon_price_model,risk_free_rate,discount_rate,growth_rate,div_netprofit_prop_coef,shock_year,market_passthrough,run_id
+GECO2021_CurPol,GECO2021_1.5C-Unif,Global,no_carbon_tax,0.02,0.07,0.03,1,2030,0,08f73115-8691-4990-a280-686ceba7c294
+NGFS2023MESSAGE_CP,NGFS2023MESSAGE_NZ2050,Global,no_carbon_tax,0.02,0.07,0.03,1,2030,0,6c39d8e8-4071-48ae-a60f-ca239a4cac79
+NGFS2023REMIND_CP,NGFS2023REMIND_NZ2050,Global,no_carbon_tax,0.02,0.07,0.03,1,2028,0,8546ba98-29f3-4a48-8647-90b5a3aa18d1
+NGFS2023REMIND_CP,NGFS2023REMIND_B2DS,Global,no_carbon_tax,0.02,0.07,0.03,1,2028,0,2a3fcd95-ae62-4224-87d2-029ad7b28642
+NGFS2023GCAM_CP,NGFS2023GCAM_NZ2050,Global,no_carbon_tax,0.02,0.07,0.03,1,2025,0,c99f8b0c-6f89-4dd1-a5cd-43c7c4b0e888
+NGFS2023GCAM_CP,NGFS2023GCAM_B2DS,Global,no_carbon_tax,0.02,0.07,0.03,1,2030,0,4251c1a0-cd5f-402a-85d1-78a638b22264
+NGFS2023GCAM_CP,NGFS2023GCAM_B2DS,Global,no_carbon_tax,0.02,0.07,0.03,1,2035,0,b4771405-4f31-4940-8bfc-74fe72a51500

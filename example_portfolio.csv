@@ -1,0 +1,21 @@
+company_id,company_name,sector,technology,country_iso2,exposure_value_usd,term,loss_given_default
+18618,Ørsted A/S,Power,RenewablesCap,JP,1000000,2,0.4
+523309,Knight Investments Pte Ltd.,Oil&Gas,Oil,ID,1000000,2,0.4
+1649947,SWN Stadtwerke Neumünster GmbH,Power,CoalCap,DE,1000000,2,0.4
+285548,Fibrasa Sudeste S/A,Power,OilCap,BR,1000000,2,0.4
+521022,Afro Asia Trade & Investments Ltd.,Coal,Coal,ID,1000000,2,0.4
+1719456,Nucleoeléctrica Argentina S.A. (NASA),Power,NuclearCap,AR,1000000,2,0.4
+2583709,Treasure Global Investments Ltd,Coal,Coal,ID,1000000,2,0.4
+519319,Portstart Business Corp.,Oil&Gas,Gas,AR,1000000,2,0.4
+510003,"HANJIN HEAVY INDUSTRIES & CONSTRUCTION HOLDINGS Co., Ltd.",Power,GasCap,KR,1000000,2,0.4
+1722824,Soenergy – Sistemas Internacionais de Energia,Power,OilCap,BR,1000000,2,0.4
+530542,Clearstream Banking AG,Oil&Gas,Oil,EG,5000000,5,0.9
+261022,Condominio Do Castanheira Shopping Center,Power,OilCap,BR,5000000,5,0.9
+2576831,Rio de Janeiro Refrescos,Power,GasCap,BR,5000000,5,0.9
+1657256,Lorica Windpark Stegelitz GmbH & Co. KG,Power,RenewablesCap,DE,5000000,5,0.9
+20128,"Dongfeng Motor Group Co., Ltd.",Automotive,ICE,FR,5000000,5,0.9
+396398,China State-Owned Assets Supervision & Admn Commission,Automotive,Hybrid,FR,5000000,5,0.9
+219841,5P Energy GmbH,Oil&Gas,Gas,DE,5000000,5,0.9
+1725697,Windpark Ellhöft,Power,RenewablesCap,DE,5000000,5,0.9
+1720979,Queiroz Galvão Energética,Power,HydroCap,BR,5000000,5,0.9
+386955,Shopping Center Caruaru,Power,OilCap,BR,5000000,5,0.9
