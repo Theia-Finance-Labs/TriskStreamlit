@@ -76,7 +76,13 @@ year = col1.selectbox('Year', data['year'].unique())
 valid_target_scenarios = data[data['baseline_scenario'] == baseline_scenario]['target_scenario'].unique()
 target_scenario = col1.selectbox('Target Scenario', valid_target_scenarios)
 technology = col1.selectbox('Select the technology', data['technology'].unique())
-
+hover_data = col1.multiselect('Hover data',    [ 'production_plan_company_technology', 'production_baseline_scenario',
+       'production_target_scenario', 'production_shock_scenario', 'pd',
+       'net_profit_margin', 'debt_equity_ratio', 'volatility',
+       'scenario_price_baseline', 'price_shock_scenario',
+       'net_profits_baseline_scenario', 'net_profits_shock_scenario',
+       'discounted_net_profits_baseline_scenario',
+       'discounted_net_profits_shock_scenario', 'count'],weight)
 def format_column(col):
     # Check if the column consists of numeric values
     if pd.api.types.is_numeric_dtype(col):
@@ -149,7 +155,7 @@ m2.add_data(
     fill_opacity=0.7,  # Adjust fill opacity for better visibility
     style_function=style_function,       # Apply the style function
     highlight_function=highlight_function,  # Apply the highlight function on hover
-    #fields=['NAME_LATN',weight+' '+technology],
+    fields=hover_data,
     style=("background-color: white; color: black; font-weight: bold;"),
     sticky=True
 )
