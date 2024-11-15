@@ -75,7 +75,10 @@ year = col1.selectbox('Year', data['year'].unique())
 # Filter valid shock scenarios based on baseline scenario selection
 valid_target_scenarios = data[data['baseline_scenario'] == baseline_scenario]['target_scenario'].unique()
 target_scenario = col1.selectbox('Target Scenario', valid_target_scenarios)
-valid_technology = data[data["baseline_scenario"] == baseline_scenario & data["target_scenario"] == target_scenario]['technology'].unique()
+valid_technology = data[
+    (data["baseline_scenario"] == baseline_scenario) & 
+    (data["target_scenario"] == target_scenario)
+]["technology"].unique()
 technology = col1.selectbox('Select the technology', valid_technology)
 hover_data = col1.multiselect('Hover data',    [ 'production_plan_company_technology', 'production_baseline_scenario',
        'production_target_scenario', 'production_shock_scenario', 'pd',
