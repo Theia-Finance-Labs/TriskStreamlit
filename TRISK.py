@@ -29,7 +29,7 @@ def get_colormap(cmap_name='YlOrBr', vmin=0, vmax=0.2, num_colors=10, invert=Fal
 
 
 st.set_page_config(
-    page_title="SME T-risk",
+    page_title="1in100 T-risk",
     page_icon="pages/logo.png",
     layout="wide"
 
