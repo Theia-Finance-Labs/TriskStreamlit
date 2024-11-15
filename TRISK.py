@@ -132,7 +132,7 @@ def style_function(feature):
     }
 
 # Define the highlight_function to change the style when a feature is highlighted (hovered)
-def highlight_function():
+def highlight_function(feature):
     return {
         "fillOpacity": 0.9,       # Slightly increase opacity on hover
         "weight": 2,              # Thicker border on hover
