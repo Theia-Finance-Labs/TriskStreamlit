@@ -52,22 +52,23 @@ with col1:
         'discounted_net_profits_baseline_scenario',
         'discounted_net_profits_shock_scenario', 'count'
     ])
-    
+    data_complete = data.dropna(subset=[weight])
+
     # Filter scenarios dynamically
-    baseline_scenario = st.selectbox('Baseline Scenario', sorted(data['baseline_scenario'].unique()))
-    valid_target_scenarios = data.loc[data['baseline_scenario'] == baseline_scenario, 'target_scenario'].unique()
+    baseline_scenario = st.selectbox('Baseline Scenario', sorted(data_complete['baseline_scenario'].unique()))
+    valid_target_scenarios = data_complete.loc[data_complete['baseline_scenario'] == baseline_scenario, 'target_scenario'].unique()
     target_scenario = st.selectbox('Target Scenario', sorted(valid_target_scenarios))
     
     # Filter technologies based on scenarios
-    scenario_filter = (data['baseline_scenario'] == baseline_scenario) & (data['target_scenario'] == target_scenario)
-    technology_options = data.loc[scenario_filter, 'technology'].unique()
+    scenario_filter = (data_complete['baseline_scenario'] == baseline_scenario) & (data_complete['target_scenario'] == target_scenario)
+    technology_options = data_complete.loc[scenario_filter, 'technology'].unique()
     technology = st.selectbox('Select the technology', sorted(technology_options))
     
     # Filter years based on selected filters
-    year_options = data.loc[scenario_filter & (data['technology'] == technology), 'year'].unique()
+    year_options = data_complete.loc[scenario_filter & (data_complete['technology'] == technology), 'year'].unique()
     year = st.selectbox('Year', sorted(year_options))
     
-    shock_year_options = data.loc[scenario_filter & (data['technology'] == technology), 'shock_year'].unique()
+    shock_year_options = data_complete.loc[scenario_filter & (data_complete['technology'] == technology), 'shock_year'].unique()
     shock_year = st.selectbox('Shock Year', sorted(shock_year_options))
     
     hover_data = st.multiselect(
@@ -93,7 +94,7 @@ def get_filtered_data(data, boundaries, baseline_scenario, target_scenario, tech
     ]
     return filtered.merge(boundaries, how='inner', left_on='country_iso2', right_on='iso_3166_1_')
 
-filtered_data = get_filtered_data(data, boundaries, baseline_scenario, target_scenario, technology, year)
+filtered_data = get_filtered_data(data_complete, boundaries, baseline_scenario, target_scenario, technology, year)
 
 # Prepare GeoDataFrame for the map
 geodf = gpd.GeoDataFrame(filtered_data, geometry='geometry')
