@@ -34,7 +34,7 @@ st.set_page_config(
     layout="wide"
 
 )
-load_visual_identity('header.png')
+load_visual_identity('pages/header.png')
 st.logo(icon_image='pages/TheiaLogo.svg',image='pages/logo.png',size='large')
 
 # Load the NUTS shapefile
