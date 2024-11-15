@@ -39,33 +39,41 @@ st.logo(icon_image='pages/TheiaLogo.svg',image='pages/logo.png',size='large')
 
 # Load the NUTS shapefile
 @st.cache_data
-def load_nuts_data():
-    gdf = gpd.read_file("NUTS_geodata/NUTS_RG_60M_2024_4326.shp")
-    gdf_country = gdf[gdf['CNTR_CODE'].isin(['FR','DE','AT'])].drop(['NUTS_NAME','COAST_TYPE','URBN_TYPE','MOUNT_TYPE'],axis=1)
-    #french_colonies = ['FRY','FRY1','FRY2','FRY3','FRY4','FRY5','FRY10','FRY20','FRY30','FRY40','FRY50']
-    return gdf_country#.loc[~gdf_country['NUTS_ID'].isin(french_colonies)] #Remove french colonies from the map
+def load_gis_data():
+    gdf = gpd.read_file("shapefiles\world-administrative-boundaries.shp")
+    return gdf.loc[gdf.status=="Member State"][['iso_3166_1_','geometry']]
 
-nuts_gdf = load_nuts_data()
 col1,sepcol,col2,coly = st.columns([5,1,5,2])
-col1.title("SME T-risk")
+col1.title("T-risk")
 col2.title("")
 
 # Load and cache the data
 @st.cache_data
 def load_data():
-    return pd.read_feather('tiltrisk_geocoded.feather')
+    processed_df = pd.read_feather('WorldAssets.feather')
+    boundaries = load_gis_data()
+    merged_df = processed_df.merge(boundaries,how='inner',left_on='country_iso2',right_on='iso_3166_1_')
+    geodf = gpd.GeoDataFrame(merged_df, geometry='geometry')
+    return geodf
 
 data = load_data()
 
 # Selection for weight column to visualize
 weight = col1.selectbox(
     'Select Weighting for Heatmap',
-    ['pd_baseline', 'pd_shock', 'crispy_perc_value_change', 'pd_difference']
+    [ 'production_plan_company_technology', 'production_baseline_scenario',
+       'production_target_scenario', 'production_shock_scenario', 'pd',
+       'net_profit_margin', 'debt_equity_ratio', 'volatility',
+       'scenario_price_baseline', 'price_shock_scenario',
+       'net_profits_baseline_scenario', 'net_profits_shock_scenario',
+       'discounted_net_profits_baseline_scenario',
+       'discounted_net_profits_shock_scenario', 'count']
 )
 
 # Select baseline scenario and filter data
 baseline_scenario = col1.selectbox('Baseline Scenario', data['baseline_scenario'].unique())
-term = col1.slider('Year', data['term'].unique().min()+2022,data['term'].unique().max()+2022)-2022
+term = col1.slider('Year', data['year'].unique().min(),data['term'].unique().max())
+shock_year = col1.slider('Shock Year', data['shock_year'].unique())
 
 # Filter valid shock scenarios based on baseline scenario selection
 valid_shock_scenarios = data[data['baseline_scenario'] == baseline_scenario]['shock_scenario'].unique()
