@@ -40,7 +40,7 @@ st.logo(icon_image='pages/TheiaLogo.svg',image='pages/logo.png',size='large')
 # Load the NUTS shapefile
 @st.cache_data
 def load_gis_data():
-    gdf = gpd.read_file("shapefiles\world-administrative-boundaries.shp")
+    gdf = gpd.read_file("shapefiles/world-administrative-boundaries.shp")
     return gdf.loc[gdf.status=="Member State"][['iso_3166_1_','geometry']]
 
 col1,sepcol,col2,coly = st.columns([5,1,5,2])
