@@ -69,17 +69,14 @@ weight = col1.selectbox(
 
 # Select baseline scenario and filter data
 baseline_scenario = col1.selectbox('Baseline Scenario', data['baseline_scenario'].unique())
-shock_year = col1.selectbox('Shock Year', data['shock_year'].unique())
-year = col1.selectbox('Year', data['year'].unique())
-
 # Filter valid shock scenarios based on baseline scenario selection
 valid_target_scenarios = data[data['baseline_scenario'] == baseline_scenario]['target_scenario'].unique()
 target_scenario = col1.selectbox('Target Scenario', valid_target_scenarios)
-valid_technology = data[
-    (data["baseline_scenario"] == baseline_scenario) & 
-    (data["target_scenario"] == target_scenario)
-]["technology"].unique()
-technology = col1.selectbox('Select the technology', valid_technology)
+scenario_check =     (data["baseline_scenario"] == baseline_scenario) & (data["target_scenario"] == target_scenario)
+
+technology = col1.selectbox('Select the technology', data[scenario_check]["technology"].unique())
+shock_year = col1.selectbox('Shock Year', data[scenario_check]['shock_year'].unique())
+year = col1.selectbox('Year', data[scenario_check]['year'].unique())
 hover_data = col1.multiselect('Hover data',    [ 'production_plan_company_technology', 'production_baseline_scenario',
        'production_target_scenario', 'production_shock_scenario', 'pd',
        'net_profit_margin', 'debt_equity_ratio', 'volatility',
@@ -120,7 +117,7 @@ m2 = leafmap.Map()
 # Define the style_function to dynamically apply color based on the `weight` column
 # Define the colormap manually (from light to dark)
 vmin = filtered_data[weight].min()
-vmax=0.7*filtered_data[weight].max()
+vmax = filtered_data[weight].max()
 if vmin<=-0.001:
     colormap = get_colormap(vmin=vmin,vmax=vmax,num_colors=20,invert=True)
 else:
@@ -169,4 +166,4 @@ m2.add_data(
 
 # Display the map in Streamlit
 with col2:
-    m2.to_streamlit(width=700, height=500,add_layer_control=False)
+    m2.to_streamlit(width=700, height=700,add_layer_control=False)
