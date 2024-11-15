@@ -96,13 +96,13 @@ def format_column(col):
         # Return the column as is if it is not numeric
         return col
     
-filtered_data = data.loc[data['baseline_scenario'].isin([baseline_scenario])].loc[data['target_scenario'].isin([target_scenario])].loc[data['year'].isin([year])].loc[data['technology'].isin([technology])].dropna(subset='geography')
+filtered_data = data.loc[data['baseline_scenario'].isin([baseline_scenario])].loc[data['target_scenario'].isin([target_scenario])].loc[data['year'].isin([year])].loc[data['technology'].isin([technology])]
 #select_company = st.multiselect('Search Company',filtered_data['company_name'].unique())
 filtered_data['year'] = filtered_data['term'] + filtered_data['start_year']
 #selected_companies = filtered_data.loc[data['company_name'].isin(select_company)].apply(format_column)
 #st.dataframe(selected_companies)
 boundaries = load_gis_data()
-merged_df = filtered_data.merge(boundaries,how='inner',left_on='country_iso2',right_on='iso_3166_1_')
+merged_df = filtered_data.merge(boundaries,how='inner',left_on='country_iso2',right_on='iso_3166_1_').dropna(subset='geography')
 geodf = gpd.GeoDataFrame(merged_df, geometry='geometry')
 st.dataframe(geodf)
 
