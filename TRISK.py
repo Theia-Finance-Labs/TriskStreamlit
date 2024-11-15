@@ -72,13 +72,13 @@ weight = col1.selectbox(
 
 # Select baseline scenario and filter data
 baseline_scenario = col1.selectbox('Baseline Scenario', data['baseline_scenario'].unique())
-term = col1.slider('Year', data['year'].unique().min(),data['term'].unique().max())
+year = col1.slider('Year', data['year'].unique().min(),data['term'].unique().max())
 shock_year = col1.slider('Shock Year', data['shock_year'].unique())
 
 # Filter valid shock scenarios based on baseline scenario selection
 valid_shock_scenarios = data[data['baseline_scenario'] == baseline_scenario]['shock_scenario'].unique()
 shock_scenario = col1.selectbox('Shock Scenario', valid_shock_scenarios)
-sector = col1.selectbox('Select the Sector', data['ald_business_unit'].unique())
+technology = col1.selectbox('Select the technology', data['technology'].unique())
 
 def format_column(col):
     # Check if the column consists of numeric values
@@ -99,17 +99,19 @@ def format_column(col):
         # Return the column as is if it is not numeric
         return col
     
-filtered_data = data.loc[data['baseline_scenario'].isin([baseline_scenario])].loc[data['term'].isin([term])].loc[data['ald_business_unit'].isin([sector])].dropna(subset='latitude')
-select_company = st.multiselect('Search Company',filtered_data['company_name'].unique())
+filtered_data = data.loc[data['baseline_scenario'].isin([baseline_scenario])].loc[data['year'].isin([year])].loc[data['technology'].isin([technology])].dropna(subset='geography')
+#select_company = st.multiselect('Search Company',filtered_data['company_name'].unique())
 filtered_data['year'] = filtered_data['term'] + filtered_data['start_year']
-selected_companies = filtered_data.loc[data['company_name'].isin(select_company)].apply(format_column)
-st.dataframe(selected_companies)
+#selected_companies = filtered_data.loc[data['company_name'].isin(select_company)].apply(format_column)
+#st.dataframe(selected_companies)
+st.dataframe(filtered_data)
 
+"""
 # Filter data based on selections
 data_withaddress = data.loc[
     (data['baseline_scenario'] == baseline_scenario) &
     (data['shock_scenario'] == shock_scenario) &
-    (data['term'] == int(term))
+    (data['term'] == int(year))
 ].dropna(subset=['latitude', 'longitude', 'term', weight]).copy()
 
 # Check if filtered data is empty
@@ -197,3 +199,4 @@ else:
         # Display the map in Streamlit
         with col2:
             m2.to_streamlit(width=700, height=500,add_layer_control=False)
+"""
