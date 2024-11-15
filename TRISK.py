@@ -103,99 +103,60 @@ filtered_data = data.loc[data['baseline_scenario'].isin([baseline_scenario])].lo
 boundaries = load_gis_data()
 merged_df = filtered_data.merge(boundaries,how='inner',left_on='country_iso2',right_on='iso_3166_1_')#.dropna(subset='geography')
 geodf = gpd.GeoDataFrame(merged_df, geometry='geometry')
-st.dataframe(geodf)
+#st.dataframe(geodf)
 
-"""
-# Filter data based on selections
-data_withaddress = data.loc[
-    (data['baseline_scenario'] == baseline_scenario) &
-    (data['shock_scenario'] == shock_scenario) &
-    (data['term'] == int(year))
-].dropna(subset=['latitude', 'longitude', 'term', weight]).copy()
-
-# Check if filtered data is empty
-if data_withaddress.empty:
-    col1.warning("No data available for the selected criteria.")
+# Initialize a Leafmap object centered on the data points with a closer zoom level
+m2 = leafmap.Map()
+# Define the style_function to dynamically apply color based on the `weight` column
+# Define the colormap manually (from light to dark)
+vmin = data[weight].min()
+vmax=0.7*data[weight].max()
+if vmin<=-0.001:
+    colormap = get_colormap(vmin=vmin,vmax=vmax,num_colors=20,invert=True)
 else:
-    NUTS_level = col1.slider('Regional Aggregation Level', 1, 3, 3, 1)
+    colormap = get_colormap(vmin=vmin,vmax=vmax,num_colors=20)
 
-    # Filter NUTS boundaries based on level
-    nuts_gdf_levelled = nuts_gdf[nuts_gdf['LEVL_CODE'] == NUTS_level]
+m2.add_colormap(width=0.3, height=2, vmin=100*abs(vmin), vmax=100*abs(vmax),palette='YlOrBr',label='%',transparent=True,orientation='vertical',position=(85,0))
 
-    # Convert to GeoDataFrame
-    data_withaddress['geometry'] = data_withaddress.apply(lambda row: Point(row['longitude'], row['latitude']), axis=1)
-    data_gdf = gpd.GeoDataFrame(data_withaddress, geometry='geometry', crs="EPSG:4326")
+def style_function(feature):
+    # Get the value from the `weight` column for the feature
+    value = feature["properties"].get(weight)  # Adjust "weight" as per your actual column name
+    color = colormap(value) if value is not None else "#8c8c8c"  # Default color if None
+    # Return the style for the feature
+    return {
+        "fillColor": color,       # Color based on the value
+        "fillOpacity": 0.9,       # Adjust fill opacity
+        "weight": 0.1,              # No outline weight
+        "stroke": True,         
+        "color": "#000000",       # White border color (if needed)
+    }
 
-    # Spatially join the data with NUTS boundaries
-    data_with_nuts = gpd.sjoin(data_gdf, nuts_gdf_levelled, how="left", predicate="within")
+# Define the highlight_function to change the style when a feature is highlighted (hovered)
+def highlight_function():
+    return {
+        "fillOpacity": 0.9,       # Slightly increase opacity on hover
+        "weight": 2,              # Thicker border on hover
+        "stroke": True,           # Add stroke on hover
+        "color": "#ff0000",       # Red border on hover
+    }
 
-    # Check for empty join results
-    if data_with_nuts.empty:
-        col1.warning("No spatial join results. Check your NUTS boundaries and input data.")
-    else:
-        # Aggregate data by NUTS region
-        aggregated_data = data_with_nuts.groupby('NUTS_ID')[weight].mean().reset_index()
+# Add a choropleth layer based on NUTS boundaries without outlines
+m2.add_data(
+    geodf,
+    column=weight,
+    layer_name=weight,
+    add_legend=False,
+    fill_opacity=0.7,  # Adjust fill opacity for better visibility
+    style_function=style_function,       # Apply the style function
+    highlight_function=highlight_function,  # Apply the highlight function on hover
+    #fields=['NAME_LATN',weight+' '+technology],
+    style=("background-color: white; color: black; font-weight: bold;"),
+    sticky=True
+)
 
-        # Merge aggregated data back with NUTS shapefile
-        nuts_gdf_levelled = nuts_gdf_levelled.merge(aggregated_data, on='NUTS_ID', how='left').dropna()
-        nuts_gdf_levelled[weight+' '+sector] = nuts_gdf_levelled[weight].apply(lambda x: f"{x:.3%}")
-
-        # Initialize a Leafmap object centered on the data points with a closer zoom level
-        m2 = leafmap.Map(center=[data_withaddress['latitude'].mean(), data_withaddress['longitude'].mean()])
-        # Define the style_function to dynamically apply color based on the `weight` column
-        # Define the colormap manually (from light to dark)
-        vmin = data[weight].min()
-        vmax=0.7*data[weight].max()
-        if vmin<=-0.001:
-            colormap = get_colormap(vmin=vmin,vmax=vmax,num_colors=20,invert=True)
-        else:
-            colormap = get_colormap(vmin=vmin,vmax=vmax,num_colors=20)
-
-        m2.add_colormap(width=0.3, height=2, vmin=100*abs(vmin), vmax=100*abs(vmax),palette='YlOrBr',label='%',transparent=True,orientation='vertical',position=(85,0))
-
-        def style_function(feature):
-            # Get the value from the `weight` column for the feature
-            value = feature["properties"].get(weight)  # Adjust "weight" as per your actual column name
-
-            color = colormap(value) if value is not None else "#8c8c8c"  # Default color if None
-
-            # Return the style for the feature
-            return {
-                "fillColor": color,       # Color based on the value
-                "fillOpacity": 0.9,       # Adjust fill opacity
-                "weight": 0.1,              # No outline weight
-                "stroke": True,         
-                "color": "#000000",       # White border color (if needed)
-            }
-
-        # Define the highlight_function to change the style when a feature is highlighted (hovered)
-        def highlight_function(feature):
-            return {
-                "fillOpacity": 0.9,       # Slightly increase opacity on hover
-                "weight": 2,              # Thicker border on hover
-                "stroke": True,           # Add stroke on hover
-                "color": "#ff0000",       # Red border on hover
-            }
-
-        # Add a choropleth layer based on NUTS boundaries without outlines
-        m2.add_data(
-            nuts_gdf_levelled,
-            column=weight,
-            layer_name=weight,
-            add_legend=False,
-            fill_opacity=0.7,  # Adjust fill opacity for better visibility
-            style_function=style_function,       # Apply the style function
-            highlight_function=highlight_function,  # Apply the highlight function on hover
-            fields=['NAME_LATN',weight+' '+sector],
-            style=("background-color: white; color: black; font-weight: bold;"),
-            sticky=True
-
-        )
-
-        m2.add_circle_markers_from_xy(selected_companies,x='longitude',y='latitude',popup=['company_name','year','net_present_value_baseline','net_present_value_shock','net_present_value_difference','pd_baseline','pd_shock','pd_difference','crispy_perc_value_change',],size=20)
+#m2.add_circle_markers_from_xy(selected_companies,x='longitude',y='latitude',popup=['company_name','year','net_present_value_baseline','net_present_value_shock','net_present_value_difference','pd_baseline','pd_shock','pd_difference','crispy_perc_value_change',],size=20)
 
 
-        # Display the map in Streamlit
-        with col2:
-            m2.to_streamlit(width=700, height=500,add_layer_control=False)
-"""
+# Display the map in Streamlit
+with col2:
+    m2.to_streamlit(width=700, height=500,add_layer_control=False)
