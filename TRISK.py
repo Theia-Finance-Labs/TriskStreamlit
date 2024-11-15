@@ -73,8 +73,8 @@ shock_year = col1.selectbox('Shock Year', data['shock_year'].unique())
 year = col1.selectbox('Year', data['year'].unique())
 
 # Filter valid shock scenarios based on baseline scenario selection
-valid_shock_scenarios = data[data['baseline_scenario'] == baseline_scenario]['target_scenario'].unique()
-shock_scenario = col1.selectbox('Target Scenario', valid_shock_scenarios)
+valid_target_scenarios = data[data['baseline_scenario'] == baseline_scenario]['target_scenario'].unique()
+target_scenario = col1.selectbox('Target Scenario', valid_target_scenarios)
 technology = col1.selectbox('Select the technology', data['technology'].unique())
 
 def format_column(col):
@@ -96,7 +96,7 @@ def format_column(col):
         # Return the column as is if it is not numeric
         return col
     
-filtered_data = data.loc[data['baseline_scenario'].isin([baseline_scenario])].loc[data['year'].isin([year])].loc[data['technology'].isin([technology])].dropna(subset='geography')
+filtered_data = data.loc[data['baseline_scenario'].isin([baseline_scenario])].loc[data['target_scenario'].isin([target_scenario])].loc[data['year'].isin([year])].loc[data['technology'].isin([technology])].dropna(subset='geography')
 #select_company = st.multiselect('Search Company',filtered_data['company_name'].unique())
 filtered_data['year'] = filtered_data['term'] + filtered_data['start_year']
 #selected_companies = filtered_data.loc[data['company_name'].isin(select_company)].apply(format_column)
