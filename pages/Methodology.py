@@ -3,11 +3,11 @@ from theia_streamlit_css import load_visual_identity
 
 st.set_page_config(
     page_title="SME T-risk",
-    page_icon="logo.png",
+    page_icon="pages/logo.png",
     layout="wide"
 )
 load_visual_identity('pages/header.png')
-st.logo(icon_image='TheiaLogo.svg',image='logo.png',size='large')
+st.logo(icon_image='TheiaLogo.svg',image='pages/logo.png',size='large')
 sepcol,col,coly = st.columns([1,5,2])
 col.title("Methodology")
 
