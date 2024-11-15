@@ -12,3 +12,4 @@ mapclassify
 numpy
 branca
 matplotlib
+modin
