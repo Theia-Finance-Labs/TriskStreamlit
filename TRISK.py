@@ -102,7 +102,7 @@ geodf = gpd.GeoDataFrame(filtered_data, geometry='geometry')
 m2 = leafmap.Map(center=(0, 0), zoom=2)
 vmin, vmax = filtered_data[weight].min(), filtered_data[weight].max()
 colormap = get_colormap(vmin=vmin, vmax=vmax, num_colors=20, invert=vmin < 0)
-
+col2.dataframe(geodf)
 m2.add_colormap(
     width=0.3, height=2, vmin=100*abs(vmin), vmax=100*abs(vmax),
     palette='YlOrBr', label=weight, transparent=True, orientation='vertical', position=(85, 0)
@@ -126,3 +126,4 @@ m2.add_data(
 # Display map
 with col2:
     m2.to_streamlit(width=700, height=700, add_layer_control=False)
+
