@@ -82,7 +82,7 @@ with col1:
     )
 
 # Filtered data based on selections
-@st.cache_data
+#@st.cache_data
 def get_filtered_data(data, boundaries, baseline_scenario, target_scenario, technology, year):
     filtered = data[
         (data['baseline_scenario'] == baseline_scenario) &
