@@ -69,8 +69,8 @@ weight = col1.selectbox(
 
 # Select baseline scenario and filter data
 baseline_scenario = col1.selectbox('Baseline Scenario', data['baseline_scenario'].unique())
+shock_year = col1.selectbox('Shock Year', data['shock_year'].unique())
 year = col1.selectbox('Year', data['year'].unique())
-shock_year = col1.slider('Shock Year', data['shock_year'].unique())
 
 # Filter valid shock scenarios based on baseline scenario selection
 valid_shock_scenarios = data[data['baseline_scenario'] == baseline_scenario]['shock_scenario'].unique()
