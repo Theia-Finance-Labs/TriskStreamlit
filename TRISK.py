@@ -101,7 +101,7 @@ filtered_data = data.loc[data['baseline_scenario'].isin([baseline_scenario])].lo
 #selected_companies = filtered_data.loc[data['company_name'].isin(select_company)].apply(format_column)
 #st.dataframe(selected_companies)
 boundaries = load_gis_data()
-merged_df = filtered_data.merge(boundaries,how='inner',left_on='country_iso2',right_on='iso_3166_1_').dropna(subset='geography')
+merged_df = filtered_data.merge(boundaries,how='inner',left_on='country_iso2',right_on='iso_3166_1_')#.dropna(subset='geography')
 geodf = gpd.GeoDataFrame(merged_df, geometry='geometry')
 st.dataframe(geodf)
 
