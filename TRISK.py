@@ -73,8 +73,8 @@ shock_year = col1.selectbox('Shock Year', data['shock_year'].unique())
 year = col1.selectbox('Year', data['year'].unique())
 
 # Filter valid shock scenarios based on baseline scenario selection
-valid_shock_scenarios = data[data['baseline_scenario'] == baseline_scenario]['shock_scenario'].unique()
-shock_scenario = col1.selectbox('Shock Scenario', valid_shock_scenarios)
+valid_shock_scenarios = data[data['baseline_scenario'] == baseline_scenario]['target_scenario'].unique()
+shock_scenario = col1.selectbox('Target Scenario', valid_shock_scenarios)
 technology = col1.selectbox('Select the technology', data['technology'].unique())
 
 def format_column(col):
