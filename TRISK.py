@@ -38,7 +38,7 @@ load_visual_identity('pages/header.png')
 st.logo(icon_image='pages/TheiaLogo.svg',image='pages/logo.png',size='large')
 
 # Load the NUTS shapefile
-#@st.cache_data
+@st.cache_data
 def load_gis_data():
     gdf = gpd.read_file("shapefiles/world-administrative-boundaries.shp")
     return gdf.loc[gdf.status=="Member State"][['iso_3166_1_','geometry']]
@@ -48,7 +48,7 @@ col1.title("T-risk")
 col2.title("")
 
 # Load and cache the data
-#@st.cache_data
+@st.cache_data
 def load_data():
     processed_df = pd.read_feather('WorldAssets.feather')
     return processed_df
