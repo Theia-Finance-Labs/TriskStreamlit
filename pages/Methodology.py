@@ -7,7 +7,7 @@ st.set_page_config(
     layout="wide"
 )
 load_visual_identity('pages/header.png')
-st.logo(icon_image='TheiaLogo.svg',image='pages/logo.png',size='large')
+st.logo(icon_image='pages/TheiaLogo.svg',image='pages/logo.png',size='large')
 sepcol,col,coly = st.columns([1,5,2])
 col.title("Methodology")
 
